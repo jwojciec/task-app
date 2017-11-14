@@ -1,8 +1,9 @@
 package com.example.task.datasources;
 
+import static com.example.task.utils.UuidUtils.generateUUID;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.ws.rs.NotFoundException;
 
@@ -47,9 +48,5 @@ public class SimpleDataSource {
             .findFirst()
             .map(obj -> taskList.remove(obj))
             .orElseThrow(() -> new NotFoundException(String.format("Task with id: [%s] not found", id)));
-    }
-
-    private static String generateUUID() {
-        return UUID.randomUUID().toString();
     }
 }

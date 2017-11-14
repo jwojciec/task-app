@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import static com.example.task.utils.UuidUtils.generateUUID;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,12 +27,14 @@ public class SimpleDataSourceTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        id = simpleDataSource.insertTask(new Task(TASK_NAME, TASK_TEXT));
+        id = simpleDataSource.insertTask(new Task(generateUUID(), TASK_NAME, TASK_TEXT)).getId();
+        assertThat(simpleDataSource.getAllTasks().size(), is(3));
     }
 
     @After
     public void tearDown() {
         simpleDataSource.deleteTask(id);
+        assertThat(simpleDataSource.getAllTasks().size(), is(2));
     }
 
     @Test
@@ -50,16 +54,9 @@ public class SimpleDataSourceTest {
         assertThat(simpleDataSource.getTask(id).getName(), is(TASK_NAME));
         assertThat(simpleDataSource.getTask(id).getText(), is(TASK_TEXT));
 
-        simpleDataSource.updateTask(id, new Task(TASK_NAME_UPDATED, TASK_TEXT_UPDATED));
+        simpleDataSource.updateTask(id, new Task(id, TASK_NAME_UPDATED, TASK_TEXT_UPDATED));
 
         assertThat(simpleDataSource.getTask(id).getName(), is(TASK_NAME_UPDATED));
         assertThat(simpleDataSource.getTask(id).getText(), is(TASK_TEXT_UPDATED));
-    }
-
-    @Test
-    public void deleteTask() throws Exception {
-        assertThat(simpleDataSource.getAllTasks().size(), is(3));
-        simpleDataSource.deleteTask(id);
-        assertThat(simpleDataSource.getAllTasks().size(), is(2));
     }
 }
