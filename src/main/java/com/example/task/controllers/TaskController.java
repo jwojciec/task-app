@@ -43,4 +43,9 @@ public class TaskController {
         simpleDataSource.updateTask(id, task);
         return task;
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteTask(@PathVariable("id") String id) {
+        simpleDataSource.deleteTask(id);
+    }
 }
