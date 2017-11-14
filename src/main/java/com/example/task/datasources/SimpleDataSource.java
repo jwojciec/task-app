@@ -5,6 +5,7 @@ import static com.example.task.utils.UuidUtils.generateUUID;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
 import org.springframework.stereotype.Component;
@@ -30,6 +31,13 @@ public class SimpleDataSource {
     }
 
     public Task insertTask(Task task) {
+        taskList.stream()
+            .filter(tsk -> tsk.getId().equals(task.getId()))
+            .findAny()
+            .ifPresent(o -> {
+                throw new BadRequestException(String.format("Task with id: [%s] already exists", task.getId()));
+            });
+
         taskList.add(task);
         return task;
     }
