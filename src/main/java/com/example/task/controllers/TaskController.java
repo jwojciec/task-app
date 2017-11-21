@@ -1,8 +1,11 @@
 package com.example.task.controllers;
 
-import java.util.List;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,29 +26,45 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Task> getAllTasks() {
-        return simpleDataSource.getAllTasks();
+    public ResponseEntity getAllTasks() {
+        return ResponseEntity.ok(simpleDataSource.getAllTasks());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Task getTask(@PathVariable("id") String id) {
-        return simpleDataSource.getTask(id);
+    public ResponseEntity getTask(@PathVariable("id") String id) {
+        return ResponseEntity.ok(simpleDataSource.getTask(id));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Task insertTask(@RequestBody Task task) {
-        simpleDataSource.insertTask(task);
-        return task;
+    public ResponseEntity insertTask(@RequestBody Task task) {
+        try {
+            simpleDataSource.insertTask(task);
+        } catch (BadRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok(task);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Task updateTask(@PathVariable("id") String id, @RequestBody Task task) {
-        simpleDataSource.updateTask(id, task);
-        return task;
+    public ResponseEntity updateTask(@PathVariable("id") String id, @RequestBody Task task) {
+        try {
+            simpleDataSource.updateTask(id, task);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(task);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteTask(@PathVariable("id") String id) {
-        simpleDataSource.deleteTask(id);
+    public ResponseEntity deleteTask(@PathVariable("id") String id) {
+        try {
+            simpleDataSource.deleteTask(id);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.GONE).build();
     }
 }

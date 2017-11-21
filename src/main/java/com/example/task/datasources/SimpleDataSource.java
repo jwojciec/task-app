@@ -1,7 +1,5 @@
 package com.example.task.datasources;
 
-import static com.example.task.utils.UuidUtils.generateUUID;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +13,8 @@ import com.example.task.model.Task;
 @Component
 public class SimpleDataSource {
     private static List<Task> taskList = new ArrayList<Task>() {{
-        add(new Task(generateUUID(), "zmywanie", "pozmywac naczynia"));
-        add(new Task(generateUUID(), "odkurzanie", "odkurzyc duzy pokoj"));
+        add(new Task("cd502cc3-99f8-4921-a66f-61f424937ebd", "zmywanie", "pozmywac naczynia"));
+        add(new Task("91c9a6dc-92c6-4c81-a874-595e0b47cb25", "odkurzanie", "odkurzyc duzy pokoj"));
     }};
 
     public Task getTask(String id) {
