@@ -1,5 +1,4 @@
-Build status: https://travis-ci.org/jwojciec/task-app.svg?branch=master
-
+Build status: [![Build Status](https://travis-ci.org/jwojciec/task-app.svg?branch=master)](https://travis-ci.org/jwojciec/task-app)
 
 - curl -i -X GET localhost:8888/tasks
 
