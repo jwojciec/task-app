@@ -1,7 +1,5 @@
 package com.example.task.controllers;
 
-import javax.ws.rs.BadRequestException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -37,12 +35,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity insertTask(@RequestBody Task task) {
-        try {
-            repository.save(task);
-        } catch (BadRequestException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        repository.save(task);
         return ResponseEntity.ok(task);
     }
 
@@ -51,12 +44,8 @@ public class TaskController {
         try {
             repository.delete(id);
         } catch (EmptyResultDataAccessException e) {
-            return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(String.format("Task with id [%d] not found", id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("Task with id [%d] not found", id));
         }
-        return ResponseEntity
-            .status(HttpStatus.GONE)
-            .body(String.format("Task with id [%d] deleted", id));
+        return ResponseEntity.status(HttpStatus.GONE).body(String.format("Task with id [%d] deleted", id));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.task.controllers;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -9,13 +10,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static com.example.task.utils.JsonUtils.jsonToTask;
 import static com.example.task.utils.JsonUtils.readJsonFile;
 
 import java.io.IOException;
 
 import jersey.repackaged.com.google.common.collect.ImmutableList;
 
+import org.hamcrest.Matchers;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +75,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void When_PostingTask_Expect_CorrectResponse() throws Exception {
+    public void When_InsertingTask_Expect_CorrectResponse() throws Exception {
         mockMvc.perform(post("/tasks/")
             .content(readJsonFile(NEW_TASK_PATH))
             .contentType(MediaType.APPLICATION_JSON))
@@ -83,11 +84,31 @@ public class TaskControllerTest {
     }
 
     @Test
+    public void When_UpdatingTask_Expect_CorrectResponse() throws Exception {
+        Task updatedTask = taskRepository.findOne(TASK_ID_1);
+        updatedTask.setActive(false);
+
+        mockMvc.perform(post("/tasks/")
+            .content(TASK_1.toString())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(TASK_1.toString()));
+
+        assertThat(TASK_1, Matchers.is(taskRepository.findOne(TASK_ID_1)));
+
+        mockMvc.perform(post("/tasks/")
+            .content(updatedTask.toString())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(updatedTask.toString()));
+
+        assertThat(updatedTask, Matchers.is(taskRepository.findOne(TASK_ID_1)));
+    }
+
+    @Test
     public void When_DeletingTask_Expect_CorrectResponse() throws Exception {
         mockMvc.perform(delete("/tasks/" + TASK_ID_1))
             .andExpect(status().isGone());
-
-        taskRepository.save(jsonToTask(SINGLE_TASK_PATH));
     }
 
     @Test
