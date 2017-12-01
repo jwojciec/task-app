@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.example.task.repositories.TaskRepository;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
     private final TaskRepository repository;
 
@@ -49,3 +51,4 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.GONE).body(String.format("Task with id [%d] deleted", id));
     }
 }
+
