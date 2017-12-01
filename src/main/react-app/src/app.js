@@ -7,9 +7,7 @@ class App extends React.Component {
   }
 }
 
-let target = document.getElementById('root');
-
-ReactDOM.render(<App/>, target);
+ReactDOM.render(<App />, document.getElementById('root'));
 
 export default App;
 
