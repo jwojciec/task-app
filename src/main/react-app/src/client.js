@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 class Client extends React.Component {
@@ -31,8 +30,6 @@ class Client extends React.Component {
     );
   }
 }
-
-ReactDOM.render(<Client />, document.getElementById('client'));
 
 export default Client;
 
