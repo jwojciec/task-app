@@ -84,6 +84,22 @@ public class TaskControllerTest {
     }
 
     @Test
+    public void When_InsertingTaskWithNullName_Expect_BadRequest() throws Exception {
+        mockMvc.perform(post("/tasks/")
+            .content(new Task(TASK_ID_1, null).toString())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void When_InsertingTaskWithEmptyName_Expect_BadRequest() throws Exception {
+        mockMvc.perform(post("/tasks/")
+            .content(new Task(TASK_ID_1, "").toString())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void When_UpdatingTask_Expect_CorrectResponse() throws Exception {
         Task updatedTask = taskRepository.findOne(TASK_ID_1);
         updatedTask.setActive(false);
