@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import request from 'superagent';
 
 class Client extends React.Component {
   constructor(props) {
@@ -11,11 +11,12 @@ class Client extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:2222/tasks')
-      .then(res => {
-        const tasks = res.data;
-        this.setState({ tasks });
-      });
+    request
+        .get('http://localhost:2222/tasks')
+        .end((err, res) => {
+            const tasks = res.body;
+            this.setState({tasks});
+        });
   }
 
   render() {
