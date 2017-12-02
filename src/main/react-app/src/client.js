@@ -1,7 +1,9 @@
 import React from'react';
 import request from'superagent';
 
-const url='http://localhost:2222/tasks/';
+const url = (process.env.NODE_ENV === 'development') 
+        ? 'http://localhost:2222/tasks/'
+        : 'https://calm-wave-83699.herokuapp.com/tasks';
 
 class Client extends React.Component{
     state={tasks:[],taskName:''};
