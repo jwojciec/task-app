@@ -13,8 +13,6 @@ class Client extends React.Component{
     }
 
     getAllTasks(){
-        console.log(process.env.NODE_ENV);
-        console.log(url);
         request
             .get(url)
             .end((err,res)=>{
