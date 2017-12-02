@@ -3,7 +3,7 @@ import request from'superagent';
 
 const url = (process.env.NODE_ENV === 'development') 
         ? 'http://localhost:2222/tasks/'
-        : 'https://calm-wave-83699.herokuapp.com/tasks';
+        : 'https://calm-wave-83699.herokuapp.com/tasks/';
 
 class Client extends React.Component{
     state={tasks:[],taskName:''};
@@ -13,6 +13,8 @@ class Client extends React.Component{
     }
 
     getAllTasks(){
+        console.log(process.env.NODE_ENV);
+        console.log(url);
         request
             .get(url)
             .end((err,res)=>{
