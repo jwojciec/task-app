@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -30,3 +34,28 @@ dependencies {
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+node {
+    nodeModulesDir = file("${project.projectDir}/src/main/react-app")
+}
+
+task npmInstall(overwrite: true, type: NpmTask, dependsOn: 'npmSetup') {
+    inputs.file('package.json')
+    outputs.upToDateWhen { file('node_modules').exists() }
+
+    npmCommand = ['install']
+}
+
+task npmBuild(overwrite: true, type: NpmTask, dependsOn: 'npmInstall') {
+    inputs.file('package.json')
+    outputs.upToDateWhen { file('node_modules').exists() }
+
+    npmCommand = ['run', 'build']
+}
+
+task copyStatic(type: Copy, dependsOn: 'npmBuild') {
+    into "${project.projectDir}/src/main/resources/static/"
+    from "${project.projectDir}/src/main/react-app/build/"
+}
+
+build.finalizedBy(copyStatic)
