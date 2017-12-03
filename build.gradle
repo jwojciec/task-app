@@ -60,4 +60,4 @@ task copyStatic(type: Copy, dependsOn: 'npmBuild') {
     from "${project.projectDir}/src/main/react-app/build/"
 }
 
-build.finalizedBy(copyStatic)
+processResources.dependsOn copyStatic
