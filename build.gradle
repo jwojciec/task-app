@@ -36,6 +36,7 @@ dependencies {
 }
 
 node {
+    npmVersion = '5.5.1'
     download = true
     nodeModulesDir = file("${project.projectDir}/src/main/react-app")
 }
