@@ -41,27 +41,26 @@ class Client extends React.Component{
 
     render(){
         return(
-            <div>
+            <fieldset class="tasks-list">
                 <div>
-                    <form onSubmit={this.insertTask}>
-                    <input type="text"
+                    <form class="tasks-form" onSubmit={this.insertTask}>
+                    <input class="tasks-input" type="text"
                         value={this.state.taskName}
                         onChange={(event)=>this.setState({taskName:event.target.value})}
-                        placeholder="NewTask" required/>
-                    <button type="submit">AddTask</button>
+                        placeholder="New task" required/>
+                    <button class="tasks-button" type="submit">Add Task</button>
                     </form>
                 </div>
             <div>
-                <ul>
                     {this.state.tasks.map(task=>
-                        <li key={task.id}>
-                            {task.name}
-                            <button onClick={()=>{this.deleteTask(task.id)}}>delete</button>
-                        </li>
+                        <label class="tasks-list-item">
+                            <input type="checkbox" name="task_2" value="1" class="tasks-list-cb" unchecked />
+                            <span class="tasks-list-mark"></span>
+                            <span class="tasks-list-desc">{task.name}</span>
+                        </label>                            
                     )}
-                </ul>
             </div>
-        </div>
+            </fieldset>
         );
     }
 }

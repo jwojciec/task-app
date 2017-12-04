@@ -2,7 +2,12 @@ import React from 'react';
 
 class App extends React.Component {
   render() {
-    return <h3>Hello From React</h3>;
+    return (
+        <header class="tasks-header">
+            <h2 class="tasks-title">Tasks</h2>
+            <a href="index.html" class="tasks-lists">Lists</a>
+        </header>            
+    );
   }
 }
 
