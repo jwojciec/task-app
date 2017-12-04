@@ -39,27 +39,37 @@ class Client extends React.Component{
             });
     }
 
+  updateTask(task) {
+        request
+            .post(url)
+            .send({ id: task.id, name: task.name, active: !task.active })
+            .end((err,res)=>{
+                this.getAllTasks()
+            });          
+  }        
+
     render(){
         return(
-            <fieldset class="tasks-list">
+            <fieldset className="tasks-list">
                 <div>
-                    <form class="tasks-form" onSubmit={this.insertTask}>
-                    <input class="tasks-input" type="text"
+                    <form className="tasks-form" onSubmit={this.insertTask}>
+                    <input className="tasks-input" type="text"
                         value={this.state.taskName}
                         onChange={(event)=>this.setState({taskName:event.target.value})}
                         placeholder="New task" required/>
-                    <button class="tasks-button" type="submit">Add Task</button>
+                    <button className="tasks-button" type="submit">Add Task</button>
                     </form>
                 </div>
-            <div>
+                <div>
                     {this.state.tasks.map(task=>
-                        <label class="tasks-list-item">
-                            <input type="checkbox" name="task_2" value="1" class="tasks-list-cb" unchecked />
-                            <span class="tasks-list-mark"></span>
-                            <span class="tasks-list-desc">{task.name}</span>
+                        <label className="tasks-list-item" key={task.id}>
+                            <input type="checkbox" className="tasks-list-cb" onChange={()=>{this.updateTask(task)}} checked={!task.active} />
+                            <span className="tasks-list-mark"></span>
+                            <span className="tasks-list-desc">{task.name}</span>
+                            <button className="tasks-delete" onClick={()=>{this.deleteTask(task.id)}}>delete</button>
                         </label>                            
                     )}
-            </div>
+                </div>
             </fieldset>
         );
     }
