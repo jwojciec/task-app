@@ -3,10 +3,14 @@ server:
 
 spring:
   datasource:
+    platform: postgres
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
+    driverClassName: org.postgresql.Driver
 
   jpa:
+    database: POSTGRESQL
+    show-sql: true
     hibernate:
       ddl-auto: update
