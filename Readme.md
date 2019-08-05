@@ -8,3 +8,8 @@ curl -i -X POST localhost:2222/tasks -H "Content-Type: application/json" -d '{"i
 curl -i -X GET localhost:2222/tasks/1
 curl -i -X DELETE localhost:2222/tasks/1
 ```
+
+# Use DB Credentials from heroku:
+   url: jdbc:postgresql://[host]:5432/d3c11mcrfmocau?sslmode=require     
+   username: [username]  
+   password: [password]
