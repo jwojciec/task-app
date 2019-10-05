@@ -4,6 +4,7 @@ server:
 spring:
   datasource:
     platform: postgres
+    #url: jdbc:postgresql://<address>/<db_name>?sslmode=require
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
